@@ -118,6 +118,9 @@ shell.help_cmd: la a0, help_msg1
 
 shell.clear_cmd: la t0, curr_line
     sb zero, 0(t0)
+    li t0, 0xFF200604
+    li t1, 0
+    sw t1, 0(t0)
     li a0, 0
     li a1, 0
     li a7, 148
@@ -138,7 +141,10 @@ shell.exec_cmd: la t0, buffer
     addi a0, t0, 5    # como eh exec, pula "exec "
     j loader
 
-shell.exit_cmd: j shell.exit_cmd
+shell.exit_cmd: DE1(s8,shell.exit_DE1)
+    li a7, 10
+    ecall
+shell.exit_DE1: j shell.exit_cmd
 
 shell.reset_buffer:
     la t0, buffer

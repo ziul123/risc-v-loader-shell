@@ -479,7 +479,6 @@ End_uepc: 	la 	a0, PC 		# Imprime o pc em que a exce��o ocorreu
 		li 	a3, 0x0000c0ff
 		jal 	printHex	
 		
-    ebreak
     j goToExit 		# encerra execu��o
 
 
@@ -680,7 +679,10 @@ ecallException:   addi    sp, sp, -264              # Salva todos os registrador
     jal NaoExisteEcall  # ecall inexistente
 
 	## end execution ##
-	goToExit: la a0, press_key_msg
+	goToExit: li t0, 0xFF200604
+      li t1, 0
+      sw t1, 0(t0)
+      la a0, press_key_msg
       li a1, 0
       li a2, 232
       li a3, 0x00FF
